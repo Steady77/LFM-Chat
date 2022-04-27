@@ -1,0 +1,25 @@
+{
+  "name": "chat",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Steady77/LFM-Chat.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Steady77/LFM-Chat/issues"
+  },
+  "homepage": "https://github.com/Steady77/LFM-Chat#readme",
+  "dependencies": {
+    "date-fns": "^2.28.0"
+  },
+  "devDependencies": {
+    "parcel": "^2.5.0"
+  }
+}
