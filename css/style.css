@@ -47,17 +47,13 @@ body {
   padding: 8px;
   margin-bottom: 8px;
   display: flex;
-  flex-direction: column;
+  flex-direction: column-reverse;
   height: 440px;
-  overflow-y: scroll;
+  overflow-y: auto;
 }
 
 .chat__inner::-webkit-scrollbar {
   width: 0;
-}
-
-.chat__inner > :first-child {
-  margin-top: auto;
 }
 
 .my-message {
@@ -157,7 +153,7 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 16px;
+  margin-bottom: 70px;
 }
 
 .modal__close {
@@ -172,4 +168,14 @@ body {
 
 .modal__text {
   margin-bottom: 8px;
+}
+
+.confirm-form,
+.auth-form {
+  flex-wrap: wrap;
+}
+
+.confirm-form__input,
+.auth-form__input {
+  margin: 0 0 7px 0;
 }
