@@ -1,6 +1,6 @@
-import { format } from 'date-fns';
+import { Email, sendEmail } from './auth.js';
 import { closeModal, openModal } from './modal.js';
-import { UI_ELEMENTS } from './view.js';
+import { addMessage, clearEmailInput, clearMessageInput, isEmpty, UI_ELEMENTS } from './view.js';
 
 UI_ELEMENTS.MODAL_OVERLAY.addEventListener('click', (e) => {
   const target = e.target;
@@ -11,24 +11,22 @@ UI_ELEMENTS.MODAL_OVERLAY.addEventListener('click', (e) => {
   }
 });
 
-function sendMessage() {
-  const messageTemplate = UI_ELEMENTS.MY_MESSAGE_TEMPLATE.content.cloneNode(true);
-  const messageText = UI_ELEMENTS.MESSAGE_INPUT.value;
-
-  messageTemplate.querySelector('.my-message__text').textContent = `Я: ${messageText}`;
-  messageTemplate.querySelector('.my-message__time').textContent = format(new Date(), 'HH:m');
-
-  UI_ELEMENTS.CHAT_BODY.prepend(messageTemplate);
-}
-
 UI_ELEMENTS.SEND_MESSAGE_FORM.addEventListener('submit', (e) => {
   e.preventDefault();
-  const isMessageEmpty = !UI_ELEMENTS.MESSAGE_INPUT.value;
 
-  if (isMessageEmpty) return;
+  if (isEmpty(UI_ELEMENTS.MESSAGE_INPUT)) return;
 
-  sendMessage();
-  UI_ELEMENTS.MESSAGE_INPUT.value = '';
+  addMessage();
+  clearMessageInput();
+});
+
+UI_ELEMENTS.AUTH_FORM.addEventListener('submit', (e) => {
+  e.preventDefault();
+
+  if (isEmpty(UI_ELEMENTS.AUTH_EMAIL_INPUT)) return;
+
+  sendEmail(new Email(UI_ELEMENTS.AUTH_EMAIL_INPUT.value));
+  clearEmailInput();
 });
 
 UI_ELEMENTS.SETTINGS_BUTTON.addEventListener('click', openModal);
