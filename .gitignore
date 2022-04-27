@@ -1,1 +1,5 @@
 .prettierrc.json
+.parcel-cache
+
+/node_modules
+/dist
