@@ -5,10 +5,14 @@ export const UI_ELEMENTS = {
   MODAL_OVERLAY: document.querySelector('.modal-overlay'),
   CHAT_BODY: document.querySelector('.chat__inner'),
   MY_MESSAGE_TEMPLATE: document.querySelector('#my-message'),
-  SEND_MESSAGE_FORM: document.querySelector('.chat-form'),
-  MESSAGE_INPUT: document.querySelector('.chat-form__input'),
+  SEND_MESSAGE_FORM: document.querySelector('.message-form'),
+  MESSAGE_INPUT: document.querySelector('.message-form__input'),
   AUTH_EMAIL_INPUT: document.querySelector('.auth-form__input'),
   AUTH_FORM: document.querySelector('.auth-form'),
+  CONFIRM_FORM: document.querySelector('.confirm-form'),
+  CONFIRM_INPUT: document.querySelector('.confirm-form__input'),
+  NAME_FORM: document.querySelector('.name-form'),
+  NAME_INPUT: document.querySelector('.name-form__input'),
 };
 
 export function addMessage() {
@@ -21,14 +25,10 @@ export function addMessage() {
   UI_ELEMENTS.CHAT_BODY.prepend(messageTemplate);
 }
 
-export function clearMessageInput() {
-  UI_ELEMENTS.MESSAGE_INPUT.value = '';
+export function clearInput(target) {
+  target.value = '';
 }
 
-export function clearEmailInput() {
-  UI_ELEMENTS.AUTH_EMAIL_INPUT.value = '';
-}
-
-export function isEmpty(inputElem) {
-  return !inputElem.value;
+export function isEmpty(inputValue) {
+  return !inputValue;
 }

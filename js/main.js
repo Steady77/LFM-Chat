@@ -1,6 +1,7 @@
-import { Email, sendEmail } from './auth.js';
-import { closeModal, openModal } from './modal.js';
-import { addMessage, clearEmailInput, clearMessageInput, isEmpty, UI_ELEMENTS } from './view.js';
+import { API, Email, Name } from './api';
+import { closeModal, openModal } from './modal';
+import { addMessage, clearInput, isEmpty, UI_ELEMENTS } from './view';
+import Cookies from 'js-cookie';
 
 UI_ELEMENTS.MODAL_OVERLAY.addEventListener('click', (e) => {
   const target = e.target;
@@ -13,20 +14,42 @@ UI_ELEMENTS.MODAL_OVERLAY.addEventListener('click', (e) => {
 
 UI_ELEMENTS.SEND_MESSAGE_FORM.addEventListener('submit', (e) => {
   e.preventDefault();
+  const inputValue = UI_ELEMENTS.MESSAGE_INPUT.value;
 
-  if (isEmpty(UI_ELEMENTS.MESSAGE_INPUT)) return;
+  if (isEmpty(inputValue)) return;
 
   addMessage();
-  clearMessageInput();
+  clearInput(UI_ELEMENTS.MESSAGE_INPUT);
 });
 
 UI_ELEMENTS.AUTH_FORM.addEventListener('submit', (e) => {
   e.preventDefault();
+  const inputValue = UI_ELEMENTS.AUTH_EMAIL_INPUT.value;
 
-  if (isEmpty(UI_ELEMENTS.AUTH_EMAIL_INPUT)) return;
+  if (isEmpty(inputValue)) return;
 
-  sendEmail(new Email(UI_ELEMENTS.AUTH_EMAIL_INPUT.value));
-  clearEmailInput();
+  API.sendEmail(new Email(inputValue));
+  clearInput(UI_ELEMENTS.AUTH_EMAIL_INPUT);
+});
+
+UI_ELEMENTS.CONFIRM_FORM.addEventListener('submit', (e) => {
+  e.preventDefault();
+  const inputValue = UI_ELEMENTS.CONFIRM_INPUT.value;
+
+  if (isEmpty(inputValue)) return;
+
+  Cookies.set('auth-key', inputValue);
+  clearInput(UI_ELEMENTS.CONFIRM_INPUT);
+});
+
+UI_ELEMENTS.NAME_FORM.addEventListener('submit', (e) => {
+  e.preventDefault();
+  const inputValue = UI_ELEMENTS.NAME_INPUT.value;
+
+  if (isEmpty(inputValue)) return;
+
+  API.sendName(new Name(inputValue));
+  clearInput(UI_ELEMENTS.NAME_INPUT);
 });
 
 UI_ELEMENTS.SETTINGS_BUTTON.addEventListener('click', openModal);
