@@ -1,33 +1,31 @@
 import Cookies from 'js-cookie';
 
+const BASE_URL = 'https://mighty-cove-31255.herokuapp.com/api/user';
+
 export const API = {
   sendEmail(email) {
-    const URL = 'https://mighty-cove-31255.herokuapp.com/api/user';
-
-    fetch(URL, {
+    fetch(BASE_URL, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json;charset=utf-8',
       },
-      body: JSON.stringify(email),
+      body: JSON.stringify({ email: email }),
     });
   },
 
   sendName(name) {
-    const URL = 'https://mighty-cove-31255.herokuapp.com/api/user';
-
-    fetch(URL, {
+    fetch(BASE_URL, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json;charset=utf-8',
         Authorization: `Bearer ${Cookies.get('auth-key')}`,
       },
-      body: JSON.stringify(name),
+      body: JSON.stringify({ name: name }),
     });
   },
 
   me() {
-    const URL = 'https://mighty-cove-31255.herokuapp.com/api/user/me';
+    const URL = `${BASE_URL}/me`;
 
     fetch(URL, {
       method: 'GET',
@@ -37,11 +35,3 @@ export const API = {
     });
   },
 };
-
-export function Email(email) {
-  this.email = email;
-}
-
-export function Name(name) {
-  this.name = name;
-}
