@@ -75,5 +75,11 @@ UI_ELEMENTS.NAME_FORM.addEventListener('submit', (e) => {
 });
 
 UI_ELEMENTS.SETTINGS_BUTTON.addEventListener('click', () => {
-  openModal();
+  API.me().then((response) => {
+    if (response.ok) {
+      alert('Вы уже авторизованы');
+    } else {
+      openModal();
+    }
+  });
 });

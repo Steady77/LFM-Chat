@@ -6,7 +6,7 @@ export const API = {
   sendEmail(email) {
     const URL = `${BASE_URL}user`;
 
-    fetch(URL, {
+    return fetch(URL, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json;charset=utf-8',
@@ -18,7 +18,7 @@ export const API = {
   sendName(name) {
     const URL = `${BASE_URL}user`;
 
-    fetch(URL, {
+    return fetch(URL, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json;charset=utf-8',
@@ -30,7 +30,12 @@ export const API = {
 
   async getMessages() {
     const URL = `${BASE_URL}messages`;
-    const response = await fetch(URL);
+    const response = await fetch(URL, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${Cookies.get('auth-key')}`,
+      },
+    });
 
     if (response.ok) {
       return response.json();
@@ -42,7 +47,7 @@ export const API = {
   me() {
     const URL = `${BASE_URL}user/me`;
 
-    fetch(URL, {
+    return fetch(URL, {
       method: 'GET',
       headers: {
         Authorization: `Bearer ${Cookies.get('auth-key')}`,
