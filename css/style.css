@@ -62,32 +62,32 @@ body {
   background-color: #f7f7f7;
 }
 
-.partner-message {
+.partners-message {
   align-self: start;
   background-color: #e5e5e5;
 }
 
 .my-message,
-.partner-message {
+.partners-message {
   max-width: 288px;
   padding: 8px;
   margin-bottom: 8px;
 }
 
 .my-message__time,
-.partner-message__time {
+.partners-message__time {
   font-weight: 300;
   font-style: italic;
   font-size: 14px;
   line-height: 16px;
 }
 
-.partner-message__time {
+.partners-message__time {
   text-align: right;
 }
 
 .my-message__text,
-.partner-message__text {
+.partners-message__text {
   margin-bottom: 4px;
 }
 

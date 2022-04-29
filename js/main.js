@@ -1,7 +1,22 @@
-import { API, Email, Name } from './api';
+import { API } from './api';
 import { closeModal, openModal } from './modal';
-import { addMessage, clearInput, isEmpty, UI_ELEMENTS } from './view';
+import { renderMyMessage, renderPartnersMessages, clearInput, isEmpty, UI_ELEMENTS } from './view';
 import Cookies from 'js-cookie';
+
+async function showMessages() {
+  try {
+    const { messages } = await API.getMessages();
+    const slicedMessages = messages.slice(0, 2);
+
+    slicedMessages.forEach((item) => {
+      renderPartnersMessages(item);
+    });
+  } catch (error) {
+    alert(error);
+  }
+}
+
+showMessages();
 
 UI_ELEMENTS.MODALS_OVERLAYS.forEach((item, i) => {
   item.addEventListener('click', (e) => {
@@ -13,13 +28,14 @@ UI_ELEMENTS.MODALS_OVERLAYS.forEach((item, i) => {
     }
   });
 });
+
 UI_ELEMENTS.SEND_MESSAGE_FORM.addEventListener('submit', (e) => {
   e.preventDefault();
   const inputValue = UI_ELEMENTS.MESSAGE_INPUT.value;
 
   if (isEmpty(inputValue)) return;
 
-  addMessage();
+  renderMyMessage(inputValue);
   clearInput(UI_ELEMENTS.MESSAGE_INPUT);
 });
 
