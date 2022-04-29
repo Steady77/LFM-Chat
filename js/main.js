@@ -1,7 +1,8 @@
 import { API } from './api';
 import { closeModal, openModal } from './modal';
-import { renderMyMessage, renderPartnersMessages, clearInput, isEmpty, UI_ELEMENTS } from './view';
+import { renderMyMessage, renderPartnersMessages, clearInput, UI_ELEMENTS } from './view';
 import Cookies from 'js-cookie';
+import { isAuth, isEmpty } from './utils';
 
 async function showMessages() {
   try {
@@ -16,7 +17,7 @@ async function showMessages() {
   }
 }
 
-showMessages();
+if (isAuth()) showMessages();
 
 UI_ELEMENTS.MODALS_OVERLAYS.forEach((item, i) => {
   item.addEventListener('click', (e) => {
@@ -33,7 +34,7 @@ UI_ELEMENTS.SEND_MESSAGE_FORM.addEventListener('submit', (e) => {
   e.preventDefault();
   const inputValue = UI_ELEMENTS.MESSAGE_INPUT.value;
 
-  if (isEmpty(inputValue)) return;
+  if (isEmpty(inputValue) || !isAuth()) return;
 
   renderMyMessage(inputValue);
   clearInput(UI_ELEMENTS.MESSAGE_INPUT);
@@ -75,11 +76,9 @@ UI_ELEMENTS.NAME_FORM.addEventListener('submit', (e) => {
 });
 
 UI_ELEMENTS.SETTINGS_BUTTON.addEventListener('click', () => {
-  API.me().then((response) => {
-    if (response.ok) {
-      alert('Вы уже авторизованы');
-    } else {
-      openModal();
-    }
-  });
+  if (isAuth()) {
+    alert('Вы уже авторизованы');
+  } else {
+    openModal();
+  }
 });

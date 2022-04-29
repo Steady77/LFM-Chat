@@ -40,7 +40,3 @@ export function renderPartnersMessages({ text, user, createdAt }) {
 export function clearInput(target) {
   target.value = '';
 }
-
-export function isEmpty(inputValue) {
-  return !inputValue;
-}
