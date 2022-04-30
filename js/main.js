@@ -23,7 +23,7 @@ UI_ELEMENTS.MODALS_OVERLAYS.forEach((item, i) => {
   item.addEventListener('click', (e) => {
     const target = e.target;
     const isMatches = target.matches('.modal-overlay') || target.matches('.modal__close');
-
+    console.log(item);
     if (isMatches) {
       closeModal(i);
     }
@@ -46,10 +46,18 @@ UI_ELEMENTS.AUTH_FORM.addEventListener('submit', (e) => {
 
   if (isEmpty(inputValue)) return;
 
-  API.sendEmail(inputValue);
+  API.sendEmail(inputValue)
+    .then((response) => {
+      if (response.ok) {
+        closeModal();
+        openModal(1);
+      } else {
+        throw new Error(`Не корректный email, Ошибка ${response.status} ${response.statusText}`);
+      }
+    })
+    .catch(alert);
+
   clearInput(UI_ELEMENTS.AUTH_EMAIL_INPUT);
-  closeModal();
-  openModal(1);
 });
 
 UI_ELEMENTS.CONFIRM_FORM.addEventListener('submit', (e) => {
@@ -70,9 +78,18 @@ UI_ELEMENTS.NAME_FORM.addEventListener('submit', (e) => {
 
   if (isEmpty(inputValue)) return;
 
-  API.sendName(inputValue);
+  API.sendName(inputValue)
+    .then((response) => {
+      console.log(response.body);
+      if (response.ok) {
+        closeModal(2);
+      } else {
+        throw new Error(`Ошибка ${response.status} ${response.statusText}`);
+      }
+    })
+    .catch(alert);
+
   clearInput(UI_ELEMENTS.NAME_INPUT);
-  closeModal(2);
 });
 
 UI_ELEMENTS.SETTINGS_BUTTON.addEventListener('click', () => {
