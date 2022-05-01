@@ -14,6 +14,9 @@ export const UI_ELEMENTS = {
   CONFIRM_INPUT: document.querySelector('.confirm-form__input'),
   NAME_FORM: document.querySelector('.name-form'),
   NAME_INPUT: document.querySelector('.name-form__input'),
+  EMAIL_MODAL: document.querySelector('.modal-email'),
+  CONFIRM_MODAL: document.querySelector('.modal-cofirm'),
+  NAME_MODAL: document.querySelector('.modal-name'),
 };
 
 export function renderMyMessage(messageText) {
