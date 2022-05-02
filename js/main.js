@@ -1,16 +1,17 @@
 import { API } from './api';
 import { closeModal, openModal } from './modal';
-import { renderMyMessage, renderPartnersMessages, clearInput, UI_ELEMENTS } from './view';
+import { clearInput, UI_ELEMENTS, renderMessages } from './view';
 import Cookies from 'js-cookie';
 import { isAuth, isEmpty } from './utils';
+import { sendMessage } from './websocket';
 
 async function showMessages() {
   try {
     const { messages } = await API.getMessages();
-    const slicedMessages = messages.slice(0, 2);
+    const slicedMessages = messages.slice(-20);
 
     slicedMessages.forEach((item) => {
-      renderPartnersMessages(item);
+      renderMessages(item);
     });
   } catch (error) {
     alert(error);
@@ -36,19 +37,20 @@ UI_ELEMENTS.SEND_MESSAGE_FORM.addEventListener('submit', (e) => {
 
   if (isEmpty(inputValue) || !isAuth()) return;
 
-  renderMyMessage(inputValue);
+  sendMessage(inputValue);
   clearInput(UI_ELEMENTS.MESSAGE_INPUT);
 });
 
-UI_ELEMENTS.AUTH_FORM.addEventListener('submit', (e) => {
+UI_ELEMENTS.EMAIL_FORM.addEventListener('submit', (e) => {
   e.preventDefault();
-  const inputValue = UI_ELEMENTS.AUTH_EMAIL_INPUT.value;
+  const inputValue = UI_ELEMENTS.EMAIL_INPUT.value;
 
   if (isEmpty(inputValue)) return;
 
   API.sendEmail(inputValue)
     .then((response) => {
       if (response.ok) {
+        Cookies.set('email', inputValue);
         closeModal(UI_ELEMENTS.EMAIL_MODAL);
         openModal(UI_ELEMENTS.CONFIRM_MODAL);
       } else {
@@ -57,7 +59,7 @@ UI_ELEMENTS.AUTH_FORM.addEventListener('submit', (e) => {
     })
     .catch(alert);
 
-  clearInput(UI_ELEMENTS.AUTH_EMAIL_INPUT);
+  clearInput(UI_ELEMENTS.EMAIL_INPUT);
 });
 
 UI_ELEMENTS.CONFIRM_FORM.addEventListener('submit', (e) => {

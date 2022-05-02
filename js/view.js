@@ -1,4 +1,5 @@
 import { format, parseISO } from 'date-fns';
+import Cookies from 'js-cookie';
 
 export const UI_ELEMENTS = {
   SETTINGS_BUTTON: document.querySelector('.chat__settings-button'),
@@ -8,8 +9,8 @@ export const UI_ELEMENTS = {
   PARTNERS_MESSAGE_TEMPLATE: document.querySelector('#partners-message'),
   SEND_MESSAGE_FORM: document.querySelector('.message-form'),
   MESSAGE_INPUT: document.querySelector('.message-form__input'),
-  AUTH_EMAIL_INPUT: document.querySelector('.auth-form__input'),
-  AUTH_FORM: document.querySelector('.auth-form'),
+  EMAIL_INPUT: document.querySelector('.auth-form__input'),
+  EMAIL_FORM: document.querySelector('.auth-form'),
   CONFIRM_FORM: document.querySelector('.confirm-form'),
   CONFIRM_INPUT: document.querySelector('.confirm-form__input'),
   NAME_FORM: document.querySelector('.name-form'),
@@ -19,7 +20,7 @@ export const UI_ELEMENTS = {
   NAME_MODAL: document.querySelector('.modal-name'),
 };
 
-export function renderMyMessage(messageText) {
+function renderMyMessage(messageText) {
   const messageTemplate = UI_ELEMENTS.MY_MESSAGE_TEMPLATE.content.cloneNode(true);
 
   messageTemplate.querySelector('.my-message__text').textContent = `Я: ${messageText}`;
@@ -28,7 +29,7 @@ export function renderMyMessage(messageText) {
   UI_ELEMENTS.CHAT_BODY.prepend(messageTemplate);
 }
 
-export function renderPartnersMessages({ text, user, createdAt }) {
+function renderPartnerMessage({ text, user, createdAt }) {
   const messageTemplate = UI_ELEMENTS.PARTNERS_MESSAGE_TEMPLATE.content.cloneNode(true);
 
   messageTemplate.querySelector('.partners-message__text').textContent = `${user.name}: ${text}`;
@@ -38,6 +39,14 @@ export function renderPartnersMessages({ text, user, createdAt }) {
   );
 
   UI_ELEMENTS.CHAT_BODY.prepend(messageTemplate);
+}
+
+export function renderMessages(data) {
+  if (data.user.email === Cookies.get('email')) {
+    renderMyMessage(data.text);
+  } else {
+    renderPartnerMessage(data);
+  }
 }
 
 export function clearInput(target) {
