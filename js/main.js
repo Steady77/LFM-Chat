@@ -1,13 +1,16 @@
 import { API } from './api';
 import { closeModal, openModal } from './modal';
-import { clearInput, UI_ELEMENTS, renderMessages } from './view';
+import { clearInput, UI_ELEMENTS, renderMessages, loadMessagesHistory } from './view';
 import Cookies from 'js-cookie';
 import { isAuth, isEmpty } from './utils';
 import { sendMessage } from './websocket';
 
+export let allMessages;
+
 async function showMessages() {
   try {
     const { messages } = await API.getMessages();
+    allMessages = messages;
     const slicedMessages = messages.slice(-20);
 
     slicedMessages.forEach((item) => {
@@ -100,3 +103,5 @@ UI_ELEMENTS.SETTINGS_BUTTON.addEventListener('click', () => {
     openModal(UI_ELEMENTS.EMAIL_MODAL);
   }
 });
+
+UI_ELEMENTS.CHAT_BODY.addEventListener('scroll', loadMessagesHistory);

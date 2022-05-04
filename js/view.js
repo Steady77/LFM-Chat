@@ -1,5 +1,6 @@
 import { format, parseISO } from 'date-fns';
 import Cookies from 'js-cookie';
+import { allMessages } from './main';
 
 export const UI_ELEMENTS = {
   SETTINGS_BUTTON: document.querySelector('.chat__settings-button'),
@@ -20,16 +21,18 @@ export const UI_ELEMENTS = {
   NAME_MODAL: document.querySelector('.modal-name'),
 };
 
-function renderMyMessage(messageText) {
+export function renderMyMessage(messageText, position) {
   const messageTemplate = UI_ELEMENTS.MY_MESSAGE_TEMPLATE.content.cloneNode(true);
 
   messageTemplate.querySelector('.my-message__text').textContent = `Я: ${messageText}`;
   messageTemplate.querySelector('.my-message__time').textContent = format(new Date(), 'HH:mm');
 
-  UI_ELEMENTS.CHAT_BODY.prepend(messageTemplate);
+  position === 'append'
+    ? UI_ELEMENTS.CHAT_BODY.append(messageTemplate)
+    : UI_ELEMENTS.CHAT_BODY.prepend(messageTemplate);
 }
 
-function renderPartnerMessage({ text, user, createdAt }) {
+export function renderPartnerMessage({ text, user, createdAt }, position) {
   const messageTemplate = UI_ELEMENTS.PARTNERS_MESSAGE_TEMPLATE.content.cloneNode(true);
 
   messageTemplate.querySelector('.partners-message__text').textContent = `${user.name}: ${text}`;
@@ -38,17 +41,40 @@ function renderPartnerMessage({ text, user, createdAt }) {
     'HH:mm'
   );
 
-  UI_ELEMENTS.CHAT_BODY.prepend(messageTemplate);
+  position === 'append'
+    ? UI_ELEMENTS.CHAT_BODY.append(messageTemplate)
+    : UI_ELEMENTS.CHAT_BODY.prepend(messageTemplate);
 }
 
-export function renderMessages(data) {
+export function renderMessages(data, position) {
   if (data.user.email === Cookies.get('email')) {
-    renderMyMessage(data.text);
+    renderMyMessage(data.text, position);
   } else {
-    renderPartnerMessage(data);
+    renderPartnerMessage(data, position);
   }
 }
 
 export function clearInput(target) {
   target.value = '';
+}
+
+export function loadMessagesHistory(e) {
+  const body = e.target;
+  const scrolled = body.scrollTop;
+  const screenHeight = body.clientHeight;
+  const height = body.scrollHeight;
+  const threshold = screenHeight - height;
+  const position = scrolled - screenHeight;
+
+  if (position <= threshold) {
+    const spliced = allMessages.splice(-20);
+    if (spliced.length === 0) {
+      body.insertAdjacentText('beforeend', 'Вся история загружена');
+      body.removeEventListener('scroll', loadMessagesHistory);
+    } else {
+      spliced.forEach((item) => {
+        renderMessages(item, 'append');
+      });
+    }
+  }
 }
