@@ -14,7 +14,7 @@ async function showMessages() {
     const slicedMessages = messages.slice(-20);
 
     slicedMessages.forEach((item) => {
-      renderMessages(item);
+      UI_ELEMENTS.CHAT_BODY.insertAdjacentElement('afterbegin', renderMessages(item));
     });
   } catch (error) {
     alert(error);

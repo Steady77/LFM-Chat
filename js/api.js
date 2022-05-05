@@ -1,6 +1,7 @@
-import Cookies from 'js-cookie';
+import { getToken } from './utils';
 
 const BASE_URL = 'https://mighty-cove-31255.herokuapp.com/api/';
+const JSON_TYPE = 'application/json;charset=utf-8';
 
 export const API = {
   sendEmail(email) {
@@ -9,9 +10,9 @@ export const API = {
     return fetch(URL, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json;charset=utf-8',
+        'Content-Type': JSON_TYPE,
       },
-      body: JSON.stringify({ email: email }),
+      body: JSON.stringify({ email }),
     });
   },
 
@@ -21,10 +22,10 @@ export const API = {
     return fetch(URL, {
       method: 'PATCH',
       headers: {
-        'Content-Type': 'application/json;charset=utf-8',
-        Authorization: `Bearer ${Cookies.get('auth-key')}`,
+        'Content-Type': JSON_TYPE,
+        Authorization: getToken(),
       },
-      body: JSON.stringify({ name: name }),
+      body: JSON.stringify({ name }),
     });
   },
 
@@ -33,7 +34,7 @@ export const API = {
     const response = await fetch(URL, {
       method: 'GET',
       headers: {
-        Authorization: `Bearer ${Cookies.get('auth-key')}`,
+        Authorization: getToken(),
       },
     });
 
@@ -50,7 +51,7 @@ export const API = {
     return fetch(URL, {
       method: 'GET',
       headers: {
-        Authorization: `Bearer ${Cookies.get('auth-key')}`,
+        Authorization: getToken(),
       },
     });
   },

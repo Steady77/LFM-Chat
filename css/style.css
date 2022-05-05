@@ -67,27 +67,24 @@ body {
   background-color: #e5e5e5;
 }
 
-.my-message,
-.partners-message {
+.message {
   max-width: 288px;
   padding: 8px;
   margin-bottom: 8px;
 }
 
-.my-message__time,
-.partners-message__time {
+.message__time {
   font-weight: 300;
   font-style: italic;
   font-size: 14px;
   line-height: 16px;
 }
 
-.partners-message__time {
+.my-message.message__time {
   text-align: right;
 }
 
-.my-message__text,
-.partners-message__text {
+.message__text {
   margin-bottom: 4px;
 }
 

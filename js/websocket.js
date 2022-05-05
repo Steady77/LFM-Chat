@@ -1,6 +1,6 @@
 import Cookies from 'js-cookie';
 import { isAuth } from './utils';
-import { renderMessages } from './view';
+import { renderMessages, UI_ELEMENTS } from './view';
 import ReconnectingWebSocket from 'reconnecting-websocket';
 
 const URL = 'ws://mighty-cove-31255.herokuapp.com/websockets';
@@ -10,9 +10,7 @@ const socket = new ReconnectingWebSocket(`${URL}?${TOKEN}`);
 
 export function sendMessage(messageText) {
   if (!socket.readyState) {
-    setInterval(() => {
-      sendMessage(messageText);
-    }, 100);
+    return;
   } else {
     socket.send(
       JSON.stringify({
@@ -28,10 +26,15 @@ socket.addEventListener('open', () => {
 
 socket.addEventListener('message', (e) => {
   if (!isAuth()) return;
+  let message;
 
-  const message = JSON.parse(e.data);
+  try {
+    message = JSON.parse(e.data);
+  } catch (error) {
+    console.error(error);
+  }
 
-  renderMessages(message);
+  UI_ELEMENTS.CHAT_BODY.insertAdjacentElement('afterbegin', renderMessages(message));
 });
 
 socket.addEventListener('error', (error) => {
