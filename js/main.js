@@ -1,27 +1,11 @@
-import { API } from './api';
 import { closeModal, openModal } from './modal';
-import { clearInput, UI_ELEMENTS, renderMessages, loadMessagesHistory } from './view';
+import { clearInput, UI_ELEMENTS, showMessages, loadMessagesHistory } from './view';
 import Cookies from 'js-cookie';
-import { isAuth, isEmpty } from './utils';
+import { isEmailAuth, isEmpty, isTokenAuth, throttle } from './utils';
 import { sendMessage } from './websocket';
+import { emailAuth, nameAuth } from './auth';
 
-export let allMessages;
-
-async function showMessages() {
-  try {
-    const { messages } = await API.getMessages();
-    allMessages = messages;
-    const slicedMessages = messages.slice(-20);
-
-    slicedMessages.forEach((item) => {
-      UI_ELEMENTS.CHAT_BODY.insertAdjacentElement('afterbegin', renderMessages(item));
-    });
-  } catch (error) {
-    alert(error);
-  }
-}
-
-if (isAuth()) showMessages();
+if (isEmailAuth() && isTokenAuth()) showMessages();
 
 UI_ELEMENTS.MODALS_OVERLAYS.forEach((item, i) => {
   item.addEventListener('click', (e) => {
@@ -38,7 +22,7 @@ UI_ELEMENTS.SEND_MESSAGE_FORM.addEventListener('submit', (e) => {
   e.preventDefault();
   const inputValue = UI_ELEMENTS.MESSAGE_INPUT.value;
 
-  if (isEmpty(inputValue) || !isAuth()) return;
+  if (isEmpty(inputValue) || !isTokenAuth()) return;
 
   sendMessage(inputValue);
   clearInput(UI_ELEMENTS.MESSAGE_INPUT);
@@ -50,18 +34,7 @@ UI_ELEMENTS.EMAIL_FORM.addEventListener('submit', (e) => {
 
   if (isEmpty(inputValue)) return;
 
-  API.sendEmail(inputValue)
-    .then((response) => {
-      if (response.ok) {
-        Cookies.set('email', inputValue);
-        closeModal(UI_ELEMENTS.EMAIL_MODAL);
-        openModal(UI_ELEMENTS.CONFIRM_MODAL);
-      } else {
-        throw new Error(`Не корректный email, Ошибка ${response.status} ${response.statusText}`);
-      }
-    })
-    .catch(alert);
-
+  emailAuth(inputValue);
   clearInput(UI_ELEMENTS.EMAIL_INPUT);
 });
 
@@ -83,25 +56,18 @@ UI_ELEMENTS.NAME_FORM.addEventListener('submit', (e) => {
 
   if (isEmpty(inputValue)) return;
 
-  API.sendName(inputValue)
-    .then((response) => {
-      if (response.ok) {
-        closeModal(UI_ELEMENTS.NAME_MODAL);
-      } else {
-        throw new Error(`Ошибка ${response.status} ${response.statusText}`);
-      }
-    })
-    .catch(alert);
-
+  nameAuth(inputValue);
   clearInput(UI_ELEMENTS.NAME_INPUT);
 });
 
 UI_ELEMENTS.SETTINGS_BUTTON.addEventListener('click', () => {
-  if (isAuth()) {
+  if (isTokenAuth() && isEmailAuth()) {
     openModal(UI_ELEMENTS.NAME_MODAL);
+  } else if (isEmailAuth()) {
+    openModal(UI_ELEMENTS.CONFIRM_MODAL);
   } else {
     openModal(UI_ELEMENTS.EMAIL_MODAL);
   }
 });
 
-UI_ELEMENTS.CHAT_BODY.addEventListener('scroll', loadMessagesHistory);
+UI_ELEMENTS.CHAT_BODY.addEventListener('scroll', throttle(loadMessagesHistory, 250));

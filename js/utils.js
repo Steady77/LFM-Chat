@@ -5,8 +5,12 @@ export function isEmpty(inputValue) {
   return !inputValue;
 }
 
-export function isAuth() {
-  return Cookies.get('auth-key') && Cookies.get('email');
+export function isTokenAuth() {
+  return Cookies.get('auth-key');
+}
+
+export function isEmailAuth() {
+  return Cookies.get('email');
 }
 
 export function setTime(data) {
@@ -15,4 +19,19 @@ export function setTime(data) {
 
 export function getToken() {
   return `Bearer ${Cookies.get('auth-key')}`;
+}
+
+export function throttle(func, timeout) {
+  let timer = null;
+
+  return function perform(...args) {
+    if (timer) return;
+
+    timer = setTimeout(() => {
+      func(...args);
+
+      clearTimeout(timer);
+      timer = null;
+    }, timeout);
+  };
 }

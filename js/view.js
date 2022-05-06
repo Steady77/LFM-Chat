@@ -1,5 +1,5 @@
 import Cookies from 'js-cookie';
-import { allMessages } from './main';
+import { API } from './api';
 import { setTime } from './utils';
 
 export const UI_ELEMENTS = {
@@ -19,6 +19,22 @@ export const UI_ELEMENTS = {
   CONFIRM_MODAL: document.querySelector('.modal-cofirm'),
   NAME_MODAL: document.querySelector('.modal-name'),
 };
+
+let allMessages;
+
+export async function showMessages() {
+  try {
+    const { messages } = await API.getMessages();
+    allMessages = messages;
+    const slicedMessages = messages.slice(-20);
+
+    slicedMessages.forEach((item) => {
+      UI_ELEMENTS.CHAT_BODY.insertAdjacentElement('afterbegin', renderMessages(item));
+    });
+  } catch (error) {
+    alert(error);
+  }
+}
 
 export function renderMessages({ text, user, createdAt }) {
   const messageTemplate = UI_ELEMENTS.MESSAGE_TEMPLATE.content.firstElementChild.cloneNode(true);
@@ -50,7 +66,7 @@ export function loadMessagesHistory(e) {
   const height = chatBody.scrollHeight;
   const threshold = screenHeight - height;
   const position = scrolled - screenHeight;
-
+  console.log(e);
   if (position <= threshold) {
     const spliced = allMessages.splice(-20);
     if (spliced.length === 0) {

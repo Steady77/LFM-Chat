@@ -1,5 +1,5 @@
 import Cookies from 'js-cookie';
-import { isAuth } from './utils';
+import { isEmailAuth, isTokenAuth } from './utils';
 import { renderMessages, UI_ELEMENTS } from './view';
 import ReconnectingWebSocket from 'reconnecting-websocket';
 
@@ -25,16 +25,14 @@ socket.addEventListener('open', () => {
 });
 
 socket.addEventListener('message', (e) => {
-  if (!isAuth()) return;
-  let message;
+  if (!isEmailAuth() && !isTokenAuth()) return;
 
   try {
-    message = JSON.parse(e.data);
+    const message = JSON.parse(e.data);
+    UI_ELEMENTS.CHAT_BODY.insertAdjacentElement('afterbegin', renderMessages(message));
   } catch (error) {
-    console.error(error);
+    console.log(error);
   }
-
-  UI_ELEMENTS.CHAT_BODY.insertAdjacentElement('afterbegin', renderMessages(message));
 });
 
 socket.addEventListener('error', (error) => {
