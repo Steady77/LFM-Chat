@@ -1,10 +1,10 @@
 import { getToken } from './utils';
 
-const BASE_URL = 'https://mighty-cove-31255.herokuapp.com/api/';
-const JSON_TYPE = 'application/json;charset=utf-8';
+const BASE_URL: string = 'https://mighty-cove-31255.herokuapp.com/api/';
+const JSON_TYPE: string = 'application/json;charset=utf-8';
 
 export const API = {
-  sendEmail(email) {
+  sendEmail(email: string): Promise<Response> {
     const URL = `${BASE_URL}user`;
 
     return fetch(URL, {
@@ -16,7 +16,7 @@ export const API = {
     });
   },
 
-  sendName(name) {
+  sendName(name: string): Promise<Response> {
     const URL = `${BASE_URL}user`;
 
     return fetch(URL, {
@@ -29,7 +29,7 @@ export const API = {
     });
   },
 
-  async getMessages() {
+  async getMessages(): Promise<any> {
     const URL = `${BASE_URL}messages`;
     const response = await fetch(URL, {
       method: 'GET',

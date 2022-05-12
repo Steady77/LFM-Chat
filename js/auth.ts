@@ -3,7 +3,7 @@ import Cookies from 'js-cookie';
 import { API } from './api';
 import { UI_ELEMENTS } from './view';
 
-export async function emailAuth(email) {
+export async function emailAuth(email: string): Promise<void> {
   try {
     const response = await API.sendEmail(email);
 
@@ -19,7 +19,7 @@ export async function emailAuth(email) {
   }
 }
 
-export async function nameAuth(name) {
+export async function nameAuth(name: string): Promise<void> {
   try {
     const response = await API.sendName(name);
 

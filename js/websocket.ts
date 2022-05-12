@@ -1,14 +1,14 @@
 import Cookies from 'js-cookie';
 import { isEmailAuth, isTokenAuth } from './utils';
-import { renderMessages, UI_ELEMENTS } from './view';
+import { renderMessages, UI_ELEMENTS, IUserData } from './view';
 import ReconnectingWebSocket from 'reconnecting-websocket';
 
 const URL = 'ws://mighty-cove-31255.herokuapp.com/websockets';
-const TOKEN = Cookies.get('auth-key');
+const TOKEN: string = Cookies.get('auth-key');
 
 const socket = new ReconnectingWebSocket(`${URL}?${TOKEN}`);
 
-export function sendMessage(messageText) {
+export function sendMessage(messageText: string) {
   if (!socket.readyState) {
     return;
   } else {
@@ -28,7 +28,8 @@ socket.addEventListener('message', (e) => {
   if (!isEmailAuth() && !isTokenAuth()) return;
 
   try {
-    const message = JSON.parse(e.data);
+    const message: IUserData = JSON.parse(e.data);
+
     UI_ELEMENTS.CHAT_BODY.insertAdjacentElement('afterbegin', renderMessages(message));
   } catch (error) {
     console.log(error);
