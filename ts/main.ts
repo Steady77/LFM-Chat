@@ -1,11 +1,11 @@
 import { closeModal, openModal } from './modal';
-import { clearInput, UI_ELEMENTS, showMessages, loadMessagesHistory } from './view';
+import { clearInput, UI_ELEMENTS, showInitialMessages, loadMessagesHistory } from './view';
 import Cookies from 'js-cookie';
 import { isEmailAuth, isEmpty, isTokenAuth, throttle } from './utils';
 import { sendMessage } from './websocket';
 import { emailAuth, nameAuth } from './auth';
 
-if (isEmailAuth() && isTokenAuth()) showMessages();
+if (isEmailAuth() && isTokenAuth()) showInitialMessages();
 
 UI_ELEMENTS.MODALS_OVERLAYS.forEach((item, i) => {
   item.addEventListener('click', (e) => {

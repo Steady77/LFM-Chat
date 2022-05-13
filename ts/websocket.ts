@@ -1,7 +1,19 @@
 import Cookies from 'js-cookie';
 import { isEmailAuth, isTokenAuth } from './utils';
-import { renderMessages, UI_ELEMENTS, IUserData } from './view';
+import { renderMessages, UI_ELEMENTS } from './view';
 import ReconnectingWebSocket from 'reconnecting-websocket';
+
+export interface IUserData {
+  createdAt: string;
+  text: string;
+  updateAt?: string;
+  user: {
+    email: string;
+    name: string;
+  };
+  _id?: string;
+  __v?: number;
+}
 
 const URL = 'ws://mighty-cove-31255.herokuapp.com/websockets';
 const TOKEN: string = Cookies.get('auth-key');

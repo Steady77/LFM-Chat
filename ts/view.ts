@@ -1,3 +1,4 @@
+import { IUserData } from './websocket';
 import Cookies from 'js-cookie';
 import { API } from './api';
 import { setTime } from './utils';
@@ -20,21 +21,9 @@ export const UI_ELEMENTS = {
   NAME_MODAL: document.querySelector('.modal-name') as HTMLDivElement,
 };
 
-export interface IUserData {
-  createdAt: string;
-  text: string;
-  updateAt?: string;
-  user: {
-    email: string;
-    name: string;
-  };
-  _id?: string;
-  __v?: number;
-}
-
 let allMessages: IUserData[];
 
-export async function showMessages(): Promise<void> {
+export async function showInitialMessages(): Promise<void> {
   try {
     const { messages }: { messages: Array<IUserData> } = await API.getMessages();
     allMessages = messages;
@@ -54,7 +43,7 @@ export function renderMessages({ text, user, createdAt }: IUserData): HTMLDivEle
   ) as HTMLDivElement;
   const messageText = messageTemplate.querySelector('.message__text') as HTMLParagraphElement;
   const messageTime = messageTemplate.querySelector('.message__time') as HTMLParagraphElement;
-  const isEmailMatch = user.email === Cookies.get('email');
+  const isEmailMatch: boolean = user.email === Cookies.get('email');
 
   if (isEmailMatch) {
     messageTemplate.classList.add('my-message');
