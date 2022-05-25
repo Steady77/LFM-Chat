@@ -10,7 +10,7 @@ if (isEmailAuth() && isTokenAuth()) showInitialMessages();
 UI_ELEMENTS.MODALS_OVERLAYS.forEach((item, i) => {
   item.addEventListener('click', (e) => {
     const target = e.target as HTMLElement;
-    const isMatches: boolean = target.matches('.modal-overlay') || target.matches('.modal__close');
+    const isMatches = target.matches('.modal-overlay') || target.matches('.modal__close');
 
     if (isMatches) {
       closeModal(UI_ELEMENTS.MODALS_OVERLAYS[i]);
@@ -20,7 +20,7 @@ UI_ELEMENTS.MODALS_OVERLAYS.forEach((item, i) => {
 
 UI_ELEMENTS.SEND_MESSAGE_FORM.addEventListener('submit', (e) => {
   e.preventDefault();
-  const inputValue: string = UI_ELEMENTS.MESSAGE_INPUT.value;
+  const inputValue = UI_ELEMENTS.MESSAGE_INPUT.value;
 
   if (isEmpty(inputValue) || !isTokenAuth()) return;
 
@@ -30,7 +30,7 @@ UI_ELEMENTS.SEND_MESSAGE_FORM.addEventListener('submit', (e) => {
 
 UI_ELEMENTS.EMAIL_FORM.addEventListener('submit', (e) => {
   e.preventDefault();
-  const inputValue: string = UI_ELEMENTS.EMAIL_INPUT.value;
+  const inputValue = UI_ELEMENTS.EMAIL_INPUT.value;
 
   if (isEmpty(inputValue)) return;
 
@@ -40,7 +40,7 @@ UI_ELEMENTS.EMAIL_FORM.addEventListener('submit', (e) => {
 
 UI_ELEMENTS.CONFIRM_FORM.addEventListener('submit', (e) => {
   e.preventDefault();
-  const inputValue: string = UI_ELEMENTS.CONFIRM_INPUT.value;
+  const inputValue = UI_ELEMENTS.CONFIRM_INPUT.value;
 
   if (isEmpty(inputValue)) return;
 
@@ -52,7 +52,7 @@ UI_ELEMENTS.CONFIRM_FORM.addEventListener('submit', (e) => {
 
 UI_ELEMENTS.NAME_FORM.addEventListener('submit', (e) => {
   e.preventDefault();
-  const inputValue: string = UI_ELEMENTS.NAME_INPUT.value;
+  const inputValue = UI_ELEMENTS.NAME_INPUT.value;
 
   if (isEmpty(inputValue)) return;
 

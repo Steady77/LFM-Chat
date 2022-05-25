@@ -43,7 +43,7 @@ export function renderMessages({ text, user, createdAt }: IUserData): HTMLDivEle
   ) as HTMLDivElement;
   const messageText = messageTemplate.querySelector('.message__text') as HTMLParagraphElement;
   const messageTime = messageTemplate.querySelector('.message__time') as HTMLParagraphElement;
-  const isEmailMatch: boolean = user.email === Cookies.get('email');
+  const isEmailMatch = user.email === Cookies.get('email');
 
   if (isEmailMatch) {
     messageTemplate.classList.add('my-message');
@@ -64,11 +64,11 @@ export function clearInput(target: HTMLInputElement) {
 
 export function loadMessagesHistory(e: Event) {
   const chatBody = e.target as Element;
-  const scrolled: number = chatBody.scrollTop;
-  const screenHeight: number = chatBody.clientHeight;
-  const height: number = chatBody.scrollHeight;
-  const threshold: number = screenHeight - height;
-  const position: number = scrolled - screenHeight;
+  const scrolled = chatBody.scrollTop;
+  const screenHeight = chatBody.clientHeight;
+  const height = chatBody.scrollHeight;
+  const threshold = screenHeight - height;
+  const position = scrolled - screenHeight;
 
   if (position <= threshold) {
     const spliced: Array<IUserData> = allMessages.splice(-20);
