@@ -15,7 +15,7 @@ export interface IUserData {
   __v?: number;
 }
 
-const URL = 'ws://mighty-cove-31255.herokuapp.com/websockets';
+const URL = 'wss://mighty-cove-31255.herokuapp.com/websockets';
 const TOKEN: string = Cookies.get('auth-key')!;
 
 const socket = new ReconnectingWebSocket(`${URL}?${TOKEN}`);
