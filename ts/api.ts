@@ -1,5 +1,4 @@
 import { getToken } from './utils';
-import { IUserData } from './websocket';
 
 const BASE_URL = 'https://mighty-cove-31255.herokuapp.com/api/';
 const JSON_TYPE = 'application/json;charset=utf-8';
