@@ -22,7 +22,9 @@ UI_ELEMENTS.SEND_MESSAGE_FORM.addEventListener('submit', (e) => {
   e.preventDefault();
   const inputValue = UI_ELEMENTS.MESSAGE_INPUT.value;
 
-  if (isEmpty(inputValue) || !isTokenAuth()) return;
+  if (isEmpty(inputValue) || !isTokenAuth()) {
+    alert('Вы не авторизованы');
+  }
 
   sendMessage(inputValue);
   clearInput(UI_ELEMENTS.MESSAGE_INPUT);
@@ -67,6 +69,14 @@ UI_ELEMENTS.SETTINGS_BUTTON.addEventListener('click', () => {
     openModal(UI_ELEMENTS.CONFIRM_MODAL);
   } else {
     openModal(UI_ELEMENTS.EMAIL_MODAL);
+  }
+});
+
+UI_ELEMENTS.EXIT_BUTTON.addEventListener('click', () => {
+  const isLogout = confirm('Вы уверены что хотите выйти? Данные авторизации будут удалены');
+  if (isLogout) {
+    Cookies.remove('auth-key');
+    Cookies.remove('email');
   }
 });
 

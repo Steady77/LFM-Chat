@@ -5,6 +5,7 @@ import { setTime } from './utils';
 
 export const UI_ELEMENTS = {
   SETTINGS_BUTTON: document.querySelector('.chat__settings-button') as HTMLButtonElement,
+  EXIT_BUTTON: document.querySelector('.chat__exit-button') as HTMLButtonElement,
   MODALS_OVERLAYS: document.querySelectorAll('.modal-overlay') as NodeListOf<HTMLDivElement>,
   CHAT_BODY: document.querySelector('.chat__inner') as HTMLDivElement,
   MESSAGE_TEMPLATE: document.querySelector('#message-template') as HTMLTemplateElement,
