@@ -15,7 +15,7 @@ export async function emailAuth(email: string): Promise<void> {
       throw new Error(`Не корректный email, Ошибка ${response.status} ${response.statusText}`);
     }
   } catch (error) {
-    console.log(error);
+    alert(error);
   }
 }
 
@@ -29,6 +29,6 @@ export async function nameAuth(name: string): Promise<void> {
       throw new Error(`Ошибка ${response.status} ${response.statusText}`);
     }
   } catch (error) {
-    console.log(error);
+    alert(error);
   }
 }
