@@ -80,4 +80,12 @@ UI_ELEMENTS.EXIT_BUTTON.addEventListener('click', () => {
   }
 });
 
-UI_ELEMENTS.CHAT_BODY.addEventListener('scroll', throttle(loadMessagesHistory, 250));
+const callback = function (entries: any) {
+  if (entries[0].isIntersecting) {
+    loadMessagesHistory();
+  }
+};
+
+const observer = new IntersectionObserver(callback);
+const elem = document.querySelector('#observable');
+observer.observe(elem);

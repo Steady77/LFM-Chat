@@ -22,7 +22,7 @@ export const UI_ELEMENTS = {
   NAME_MODAL: document.querySelector('.modal-name') as HTMLDivElement,
 };
 
-let allMessages: IUserData[];
+let allMessages: IUserData[] = [];
 
 export async function showInitialMessages(): Promise<void> {
   try {
@@ -63,23 +63,9 @@ export function clearInput(target: HTMLInputElement) {
   target.value = '';
 }
 
-export function loadMessagesHistory(e: Event) {
-  const chatBody = e.target as Element;
-  const scrolled = chatBody.scrollTop;
-  const screenHeight = chatBody.clientHeight;
-  const height = chatBody.scrollHeight;
-  const threshold = screenHeight - height;
-  const position = scrolled - screenHeight;
-
-  if (position <= threshold) {
-    const spliced: Array<IUserData> = allMessages.splice(-20);
-    if (spliced.length === 0) {
-      chatBody.insertAdjacentText('beforeend', 'Вся история загружена');
-      chatBody.removeEventListener('scroll', loadMessagesHistory);
-    } else {
-      spliced.forEach((item) => {
-        chatBody.insertAdjacentElement('beforeend', renderMessages(item));
-      });
-    }
-  }
+export function loadMessagesHistory() {
+  const spliced: Array<IUserData> = allMessages.splice(-20);
+  spliced.forEach((item) => {
+    UI_ELEMENTS.MESSAGE_TEMPLATE.insertAdjacentElement('beforebegin', renderMessages(item));
+  });
 }
