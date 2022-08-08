@@ -28,18 +28,3 @@ export function hidePreloader(elem: HTMLElement) {
 export function showPreloader(elem: HTMLElement) {
   elem.classList.add('preloader--active');
 }
-
-export function throttle(func: Function, timeout: number) {
-  let timer: number | null = null;
-
-  return function perform(...args: []) {
-    if (timer) return;
-
-    timer = setTimeout(() => {
-      func(...args);
-
-      clearTimeout(timer);
-      timer = null;
-    }, timeout);
-  };
-}

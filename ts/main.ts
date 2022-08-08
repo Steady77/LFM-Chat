@@ -1,7 +1,7 @@
 import { closeModal, openModal } from './modal';
 import { clearInput, UI_ELEMENTS, showInitialMessages, loadMessagesHistory } from './view';
 import Cookies from 'js-cookie';
-import { isEmailAuth, isEmpty, isTokenAuth, throttle } from './utils';
+import { isEmailAuth, isEmpty, isTokenAuth } from './utils';
 import { sendMessage } from './websocket';
 import { emailAuth, nameAuth } from './auth';
 
