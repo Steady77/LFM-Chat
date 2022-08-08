@@ -21,6 +21,14 @@ export function getToken(): string {
   return `Bearer ${Cookies.get('auth-key')}`;
 }
 
+export function hidePreloader(elem: HTMLElement) {
+  elem.classList.remove('preloader--active');
+}
+
+export function showPreloader(elem: HTMLElement) {
+  elem.classList.add('preloader--active');
+}
+
 export function throttle(func: Function, timeout: number) {
   let timer: number | null = null;
 

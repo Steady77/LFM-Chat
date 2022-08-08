@@ -1,7 +1,7 @@
 import { IUserData } from './websocket';
 import Cookies from 'js-cookie';
 import { API } from './api';
-import { setTime } from './utils';
+import { hidePreloader, setTime, showPreloader } from './utils';
 
 export const UI_ELEMENTS = {
   SETTINGS_BUTTON: document.querySelector('.chat__settings-button') as HTMLButtonElement,
@@ -20,11 +20,14 @@ export const UI_ELEMENTS = {
   EMAIL_MODAL: document.querySelector('.modal-email') as HTMLDivElement,
   CONFIRM_MODAL: document.querySelector('.modal-cofirm') as HTMLDivElement,
   NAME_MODAL: document.querySelector('.modal-name') as HTMLDivElement,
+  PRELOADER: document.querySelector('.scaling-circle') as HTMLDivElement,
+  OBSERVABLE: document.querySelector('#observable'),
 };
 
 let allMessages: IUserData[] = [];
 
 export async function showInitialMessages(): Promise<void> {
+  showPreloader(UI_ELEMENTS.PRELOADER);
   try {
     const { messages }: { messages: Array<IUserData> } = await API.getMessages();
     allMessages = messages;
@@ -33,6 +36,7 @@ export async function showInitialMessages(): Promise<void> {
     slicedMessages.forEach((item) => {
       UI_ELEMENTS.CHAT_BODY.insertAdjacentElement('afterbegin', renderMessages(item));
     });
+    hidePreloader(UI_ELEMENTS.PRELOADER);
   } catch (error) {
     alert(error);
   }

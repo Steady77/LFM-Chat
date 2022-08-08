@@ -5,7 +5,11 @@ import { isEmailAuth, isEmpty, isTokenAuth, throttle } from './utils';
 import { sendMessage } from './websocket';
 import { emailAuth, nameAuth } from './auth';
 
-if (isEmailAuth() && isTokenAuth()) showInitialMessages();
+if (isEmailAuth() && isTokenAuth()) {
+  showInitialMessages();
+} else {
+  openModal(UI_ELEMENTS.EMAIL_MODAL);
+}
 
 UI_ELEMENTS.MODALS_OVERLAYS.forEach((item, i) => {
   item.addEventListener('click', (e) => {
@@ -87,5 +91,4 @@ const callback = function (entries: any) {
 };
 
 const observer = new IntersectionObserver(callback);
-const elem = document.querySelector('#observable');
-observer.observe(elem);
+observer.observe(UI_ELEMENTS.OBSERVABLE);
